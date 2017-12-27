@@ -1,0 +1,13 @@
+*.iml
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+*.class
+/out
+.name
+compute/.idea/compiler.xml
+compute/.idea/modules.xml
+compute/.idea/workspace.xml
+compute/.idea/copyright/profiles_settings.xml
+compute/.idea/markdown-navigator/profiles_settings.xml
+compute/dataset/tb_call_201202_random.txt
+compute/dataset/tb_call_201202_random_test.txt
