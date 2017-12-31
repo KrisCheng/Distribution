@@ -1,3 +1,5 @@
+package com.tongji.DistributedSystem;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,13 +8,13 @@ import java.util.Map;
 public class AvgCall {
     public static void main(String[] args) {
         //<主叫号码,有通话记录的天数>
-        HashMap<String, Integer> dayCount = new HashMap<>();
+        HashMap<String, Integer> dayCount = new HashMap<String, Integer>();
         //<主叫号码,所有通话次数>
-        HashMap<String, Integer> allCount = new HashMap<>();
+        HashMap<String, Integer> allCount = new HashMap<String, Integer>();
         //<主叫号码,通话日期>
-        HashMap<String, ArrayList<String>> teleDate = new HashMap<>();
+        HashMap<String, ArrayList<String>> teleDate = new HashMap<String, ArrayList<String>>();
         //<主叫号码,每日平均通话次数>
-        HashMap<String, Float> avgCount = new HashMap<>();
+        HashMap<String, Float> avgCount = new HashMap<String, Float>();
         String FilePath = "dataset/tb_call_201202_random.txt";
         try {
             StringBuffer sb= new StringBuffer("");
@@ -23,7 +25,7 @@ public class AvgCall {
                 str += "\r\n";
                 String[] dictionary = str.split("\\s{2,}|\t");
                 sb.append(dictionary[0] + "," + dictionary[1] + "\n");
-                ArrayList<String> tempList = new ArrayList<>();
+                ArrayList<String> tempList = new ArrayList<String>();
                 if(teleDate.containsKey(dictionary[1])){
                     ArrayList<String> preList = teleDate.get(dictionary[1]);
                     boolean needUpdate = true;

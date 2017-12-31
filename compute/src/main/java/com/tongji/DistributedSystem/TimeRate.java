@@ -1,4 +1,8 @@
-import bean.CallTimeBean;
+package com.tongji.DistributedSystem;
+
+
+import com.tongji.DistributedSystem.bean.CallTimeBean;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +13,7 @@ import java.util.Map;
  */
 public class TimeRate {
 
-    public static void switchTimeslot(CallTimeBean timeBean, String operator){
+    public static void switchTimeSlot(CallTimeBean timeBean, String operator){
         if(operator.equals("00")||operator.equals("01")||operator.equals("02")){
             timeBean.timeSlot1++;
         }
@@ -38,7 +42,7 @@ public class TimeRate {
 
     public static void main(String[] args) {
         //<主叫号码,通话日期>
-        HashMap<String, CallTimeBean> timeDistribution = new HashMap<>();
+        HashMap<String, CallTimeBean> timeDistribution = new HashMap<String, CallTimeBean>();
         String FilePath = "dataset/tb_call_201202_random.txt";
         try {
             // read file content from file
@@ -52,16 +56,17 @@ public class TimeRate {
                 // 1 --> 主叫号码 9 --> 开始时间 11 --> 通话时长
                 String timeStamp = dictionary[9].substring(0,2);
                 if(timeDistribution.containsKey(dictionary[1])) {
-                    switchTimeslot(timeDistribution.get(dictionary[1]),timeStamp);
+                    switchTimeSlot(timeDistribution.get(dictionary[1]),timeStamp);
                 }
                 else{
                     CallTimeBean tempBean = new CallTimeBean();
-                    switchTimeslot(tempBean,timeStamp);
+                    switchTimeSlot(tempBean,timeStamp);
                     timeDistribution.put(dictionary[1], tempBean);
                 }
             }
-                br.close();
-                reader.close();
+
+            br.close();
+            reader.close();
 
             // 结果写入Txt文件
             File writename = new File("time_distribution.txt");
