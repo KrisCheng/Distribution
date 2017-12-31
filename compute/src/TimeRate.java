@@ -38,7 +38,7 @@ public class TimeRate {
 
     public static void main(String[] args) {
         //<主叫号码,通话日期>
-        HashMap<String, CallTimeBean> timeDistribution = new HashMap<String, CallTimeBean>();
+        HashMap<String, CallTimeBean> timeDistribution = new HashMap<>();
         String FilePath = "dataset/tb_call_201202_random.txt";
         try {
             // read file content from file
@@ -60,17 +60,6 @@ public class TimeRate {
                     timeDistribution.put(dictionary[1], tempBean);
                 }
             }
-//            for(Map.Entry<String, CallTimeBean> entry : timeDistribution.entrySet()) {
-//                System.out.println(entry.getKey()+" -- "
-//                        + " 0~3: " + entry.getValue().timeSlot1
-//                        + " 3~6: " + entry.getValue().timeSlot2
-//                        + " 6~9: " + entry.getValue().timeSlot3
-//                        + " 9~12: " + entry.getValue().timeSlot4
-//                        + " 12~15: " + entry.getValue().timeSlot5
-//                        + " 15~18: " + entry.getValue().timeSlot6
-//                        + " 18~21: " + entry.getValue().timeSlot7
-//                        + " 21~24: " + entry.getValue().timeSlot8);
-//            }
                 br.close();
                 reader.close();
 
@@ -78,6 +67,7 @@ public class TimeRate {
             File writename = new File("time_distribution.txt");
             writename.createNewFile();
             BufferedWriter out = new BufferedWriter(new FileWriter(writename));
+            out.write("TeleNumber" + " : " + "Count" + "\r\n");
             for(Map.Entry<String, CallTimeBean> entry : timeDistribution.entrySet()) {
                 out.write(entry.getKey()+" -- "
                         + " 0~3: " + entry.getValue().timeSlot1
