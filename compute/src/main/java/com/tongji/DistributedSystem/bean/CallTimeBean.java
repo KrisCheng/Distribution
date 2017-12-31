@@ -1,4 +1,4 @@
-package bean;
+package com.tongji.DistributedSystem.bean;
 
 /**
  * Created by Kris Peng on 20:16 27/12/2017 .

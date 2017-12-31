@@ -1,6 +1,7 @@
-import bean.CallTimeBean;
+package com.tongji.DistributedSystem;
+
+import com.tongji.DistributedSystem.bean.CallTimeBean;
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -38,7 +39,7 @@ public class TimeRate {
 
     public static void main(String[] args) {
         //<主叫号码,通话日期>
-        HashMap<String, CallTimeBean> timeDistribution = new HashMap<String, CallTimeBean>();
+        Hash Map<String, CallTimeBean> timeDistribution = new HashMap<String, CallTimeBean>();
         String FilePath = "dataset/tb_call_201202_random.txt";
         try {
             // read file content from file

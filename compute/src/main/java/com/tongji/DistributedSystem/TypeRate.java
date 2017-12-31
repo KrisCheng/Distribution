@@ -1,5 +1,6 @@
-import bean.CallTypeBean;
+package com.tongji.DistributedSystem;
 
+import com.tongji.DistributedSystem.bean.CallTypeBean;
 import java.io.*;
 /**
  * Created by Kris Peng on 17:50 27/12/2017 .
