@@ -46,24 +46,30 @@ public class FileOperator {
     }
 
     //上传本地文件
-    public static void uploadFile(String src,String dst) throws IOException{
+    public static void uploadFile(String src,String dst) throws Exception{
         //Configuration conf = new Configuration();
-        FileSystem fs = FileSystem.get(conf);
-        Path srcPath = new Path(src); //本地上传文件路径
-        Path dstPath = new Path(dst); //hdfs目标路径
-        //调用文件系统的文件复制函数,前面参数是指是否删除原文件，true为删除，默认为false
-        fs.copyFromLocalFile(false, srcPath, dstPath);
-
-        //打印文件路径
-        System.out.println("Upload to "+conf.get("fs.default.name"));
-        System.out.println("------------list files------------"+"\n");
-        FileStatus[] fileStatus = fs.listStatus(dstPath);
-        for (FileStatus file : fileStatus)
-        {
-            System.out.println(file.getLen());
-            System.out.println(file.getPath());
+        try {
+            System.out.println("start");
+            FileSystem fs = FileSystem.get(conf);
+            System.out.println("start1");
+            Path srcPath = new Path(src); //本地上传文件路径
+            Path dstPath = new Path(dst); //hdfs目标路径
+            //调用文件系统的文件复制函数,前面参数是指是否删除原文件，true为删除，默认为false
+            System.out.println("start2");
+            fs.copyFromLocalFile(false, srcPath, dstPath);
+            System.out.println("start3");
+            //打印文件路径
+            System.out.println("Upload to " + conf.get("fs.default.name"));
+            System.out.println("------------list files------------" + "\n");
+            FileStatus[] fileStatus = fs.listStatus(dstPath);
+            for (FileStatus file : fileStatus) {
+                System.out.println(file.getLen());
+                System.out.println(file.getPath());
+            }
+            fs.close();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        fs.close();
     }
 
     //文件重命名

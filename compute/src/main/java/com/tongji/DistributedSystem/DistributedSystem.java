@@ -2,6 +2,7 @@ package com.tongji.DistributedSystem;
 
 
 import com.tongji.DistributedSystem.util.FileOperator;
+import com.tongji.DistributedSystem.util.MapReduceOperator;
 
 /**
  * Created by 秦博 on 2017/12/25.
@@ -59,11 +60,24 @@ public class DistributedSystem {
 //            // TODO Auto-generated catch block
 //            e.printStackTrace();
 //        }
-
-        FileOperator.uploadFile("D://omega.txt", "omega.txt");
-        FileOperator.getDirectoryFromHdfs("/");
-
-
+        /*String str = "20120201\t349723\ty24373194378\t1\t2\t0551\t0551\t0551\t0551\t08:39:50\t08:42:54\t184\t1\t373\t";
+        String[] dictionary = str.split("\\s{2,}|\t");
+        for(int i = 0;i<dictionary.length;i++){
+            System.out.println(dictionary[i]);
+        }*/
+        /*try {
+            System.out.println("文件创建成功！1");
+            FileOperator.uploadFile("D://omega.txt", "/user/data/omega.txt");
+            FileOperator.getDirectoryFromHdfs("/");
+            System.out.println("文件创建成功！2");
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
+        try{
+            MapReduceOperator.AvgCall("/user/data/omega.txt","/user/data/UserCallNum");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
