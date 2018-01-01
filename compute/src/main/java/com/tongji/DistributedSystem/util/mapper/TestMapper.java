@@ -1,4 +1,4 @@
-package com.tongji.DistributedSystem.mapper;
+package com.tongji.DistributedSystem.util.mapper;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;

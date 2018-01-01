@@ -1,4 +1,4 @@
-package com.tongji.DistributedSystem.reducer;
+package com.tongji.DistributedSystem.util.reducer;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;

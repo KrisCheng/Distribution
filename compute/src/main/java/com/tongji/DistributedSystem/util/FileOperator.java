@@ -1,6 +1,8 @@
 package com.tongji.DistributedSystem.util;
 
 import com.google.common.io.Resources;
+import com.tongji.DistributedSystem.response.BaseResp;
+import com.tongji.DistributedSystem.response.fs.GetDirectoryFromHdfsResp;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
@@ -8,9 +10,10 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 秦博 on 2017/12/26.
@@ -20,33 +23,26 @@ public class FileOperator {
     static Configuration conf = new Configuration();
 
     static {
-//        conf.set("fs.defaultFS", "hdfs://ha-master");
-//        conf.set("dfs.nameservices", "ha-master");
-//        conf.set("dfs.ha.namenodes.ha-master", "nn1,nn2,nn3,nn4");
-//        conf.set("dfs.namenode.rpc-address.ha-master.nn1", "hd-data1:9000");
-//        conf.set("dfs.namenode.rpc-address.ha-master.nn2", "hd-data2:9000");
-//        conf.set("dfs.namenode.rpc-address.ha-master.nn3", "hd-data3:9000");
-//        conf.set("dfs.namenode.rpc-address.ha-master.nn4", "hd-data4:9000");
-//        conf.set("dfs.client.failover.proxy.provider.ha-master" ,"org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider");
         conf.addResource(Resources.getResource("core-site.xml"));
         conf.addResource(Resources.getResource("hdfs-site.xml"));
         conf.addResource(Resources.getResource("mapred-site.xml"));
     }
 
     //创建新文件
-    public static void createFile(String dst , byte[] contents) throws IOException {
+    public static int createFile(String dst , String contents) throws IOException {
         FileSystem fs = FileSystem.get(conf);
         Path dstPath = new Path(dst); //目标路径
         //打开一个输出流
         FSDataOutputStream outputStream = fs.create(dstPath);
-        outputStream.write(contents);
+        outputStream.write(contents.getBytes());
         outputStream.close();
         fs.close();
         System.out.println("文件创建成功！");
+        return BaseResp.SUCCESS;
     }
 
     //上传本地文件
-    public static void uploadFile(String src,String dst) throws IOException{
+    public static int uploadFile(String src, String dst) throws IOException{
         //Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
         Path srcPath = new Path(src); //本地上传文件路径
@@ -64,10 +60,25 @@ public class FileOperator {
             System.out.println(file.getPath());
         }
         fs.close();
+        return BaseResp.SUCCESS;
+    }
+
+    //下载本地文件
+    public static String downloadFile(String filename, String dst) throws IOException{
+        FileSystem fs = FileSystem.get(conf);
+        InputStream in = fs.open(new Path(dst + filename));
+        //网站跟目录路径
+        String webBaseDir = "D:\\";
+        //上传文件保存的目录路径
+        String downloadFileDir = webBaseDir + "var\\";
+        OutputStream out = new FileOutputStream(downloadFileDir + filename);
+        IOUtils.copyBytes(in, out, 4096, true);
+        fs.close();
+        return downloadFileDir + filename;
     }
 
     //文件重命名
-    public static void rename(String oldName,String newName) throws IOException{
+    public static int rename(String oldName,String newName) throws IOException{
         //Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
         Path oldPath = new Path(oldName);
@@ -75,42 +86,51 @@ public class FileOperator {
         boolean isok = fs.rename(oldPath, newPath);
         if(isok){
             System.out.println("rename ok!");
-        }else{
+            fs.close();
+            return BaseResp.SUCCESS;
+        }else {
             System.out.println("rename failure");
+            fs.close();
+            return BaseResp.FAILURE;
         }
-        fs.close();
     }
 
     //删除文件
-    public static void delete(String filePath) throws IOException{
+    public static int delete(String filePath) throws IOException{
         //Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
         Path path = new Path(filePath);
         boolean isok = fs.deleteOnExit(path);
         if(isok){
             System.out.println("delete ok!");
+            fs.close();
+            return BaseResp.SUCCESS;
         }else{
             System.out.println("delete failure");
+            fs.close();
+            return BaseResp.FAILURE;
         }
-        fs.close();
     }
 
     //创建目录
-    public static void mkdir(String path) throws IOException{
+    public static int mkdir(String path) throws IOException{
         //Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
         Path srcPath = new Path(path);
         boolean isok = fs.mkdirs(srcPath);
         if(isok){
             System.out.println("create " + path + " dir ok!");
+            fs.close();
+            return BaseResp.SUCCESS;
         }else{
             System.out.println("create " + path + " dir failure");
+            fs.close();
+            return BaseResp.FAILURE;
         }
-        fs.close();
     }
 
     //读取文件的内容
-    public static void readFile(String filePath) throws IOException{
+    public static String readFile(String filePath) throws IOException{
         //Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
         Path srcPath = new Path(filePath);
@@ -118,6 +138,7 @@ public class FileOperator {
         try {
             in = fs.open(srcPath);
             IOUtils.copyBytes(in, System.out, 4096, false); //复制到标准输出流
+            return org.apache.commons.io.IOUtils.toString(in, "utf-8");
         } finally {
             IOUtils.closeStream(in);
         }
@@ -126,20 +147,38 @@ public class FileOperator {
     /**
      * 遍历指定目录(direPath)下的所有文件
      */
-    public static void  getDirectoryFromHdfs(String direPath){
+    public static List<GetDirectoryFromHdfsResp.Directory> getDirectoryFromHdfs(String direPath){
         try {
+            List<GetDirectoryFromHdfsResp.Directory> directoryList = new ArrayList<>();
             FileSystem fs = FileSystem.get(URI.create(direPath),conf);
             FileStatus[] filelist = fs.listStatus(new Path(direPath));
             for (int i = 0; i < filelist.length; i++) {
                 System.out.println("_________" + direPath + "目录下所有文件______________");
                 FileStatus fileStatus = filelist[i];
-                System.out.println("Name:"+fileStatus.getPath().getName());
-                System.out.println("Size:"+fileStatus.getLen());
-                System.out.println("Path:"+fileStatus.getPath());
+                directoryList.add(new GetDirectoryFromHdfsResp.Directory(fileStatus.getPath().getName(), fileStatus.getLen(), fileStatus.getPath().toString()));
             }
             fs.close();
+            return directoryList;
         } catch (Exception e){
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean deleteFile(String fileName) {
+        File file = new File(fileName);
+
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                System.out.println("delete" + fileName + " success!");
+                return true;
+            } else {
+                System.out.println("delete" + fileName + " fail!");
+                return false;
+            }
+        } else {
+            System.out.println("delete:" + fileName + " not exist!");
+            return false;
         }
     }
 
