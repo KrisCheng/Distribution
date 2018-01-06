@@ -68,9 +68,9 @@ public class FileOperator {
         FileSystem fs = FileSystem.get(conf);
         InputStream in = fs.open(new Path(dst + filename));
         //网站跟目录路径
-        String webBaseDir = "D:\\";
+        String webBaseDir = System.getProperty("user.dir");
         //上传文件保存的目录路径
-        String downloadFileDir = webBaseDir + "var\\";
+        String downloadFileDir = webBaseDir + "/tmp/";
         OutputStream out = new FileOutputStream(downloadFileDir + filename);
         IOUtils.copyBytes(in, out, 4096, true);
         fs.close();

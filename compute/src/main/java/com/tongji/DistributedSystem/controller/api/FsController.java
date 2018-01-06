@@ -58,9 +58,10 @@ public class FsController {
     public BaseResp postUpload(@RequestParam("file") MultipartFile file, String dst) throws IOException {
         try {
             //网站跟目录路径
-            String webBaseDir = "D:\\";
+            String webBaseDir = System.getProperty("user.dir");
+            System.out.println(webBaseDir);
             //上传文件保存的目录路径
-            String uploadFileDir = webBaseDir + "var\\";
+            String uploadFileDir = webBaseDir + "/tmp/";
             String fileName = file.getOriginalFilename();
             //生成上传文件的路径
             String filePath = uploadFileDir + "/" + fileName;
