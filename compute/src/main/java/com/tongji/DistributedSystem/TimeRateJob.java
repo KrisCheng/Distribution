@@ -143,7 +143,7 @@ public class TimeRateJob extends Configured implements Tool {
         //conf.addResource(Resources.getResource("core-site.xml"));
         //conf.addResource(Resources.getResource("hdfs-site.xml"));
         //conf.addResource(Resources.getResource("mapred-site.xml"));
-        //FileOperator.delete(timeNum_path);
+        FileOperator.delete(timeNum_path);
         FileOperator.delete(timeRate_path);
 
         Job job = Job.getInstance(conf, "TimeNum");
@@ -169,11 +169,11 @@ public class TimeRateJob extends Configured implements Tool {
         FileInputFormat.addInputPath(job2, new Path(timeNum_path));
         FileOutputFormat.setOutputPath(job2, new Path(timeRate_path));
 
-        //if(job.waitForCompletion(true)){
+        if(job.waitForCompletion(true)){
             if(job2.waitForCompletion(true)){
                 getResult();
             }
-        //}
+        }
 
         System.out.println("start");
         return 0;

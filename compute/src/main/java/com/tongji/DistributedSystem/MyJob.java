@@ -78,9 +78,9 @@ public class MyJob extends Configured implements Tool {
         //conf.addResource(Resources.getResource("core-site.xml"));
         //conf.addResource(Resources.getResource("hdfs-site.xml"));
         //conf.addResource(Resources.getResource("mapred-site.xml"));
-        //FileOperator.delete(UserDate_path);
-        //FileOperator.delete(UserCallNum_path);
-        //FileOperator.delete(UserDateNum_path);
+        FileOperator.delete(UserDate_path);
+        FileOperator.delete(UserCallNum_path);
+        FileOperator.delete(UserDateNum_path);
         FileOperator.delete(AvgCall_path);
 
         Job job = Job.getInstance(conf, "UserCallNum");
@@ -128,14 +128,14 @@ public class MyJob extends Configured implements Tool {
         FileInputFormat.addInputPath(job4, new Path(UserCallNum_path));
         FileInputFormat.addInputPath(job4, new Path(UserDateNum_path));
         FileOutputFormat.setOutputPath(job4, new Path(AvgCall_path));
-//        if(job2.waitForCompletion(true)){
-//            if(job.waitForCompletion(true) && job3.waitForCompletion(true)){
-//                //computeAvgCall();
+        if(job2.waitForCompletion(true)){
+            if(job.waitForCompletion(true) && job3.waitForCompletion(true)){
+                //computeAvgCall();
                 if (job4.waitForCompletion(true)){
                     FileOperator.downloadFile("AvgCall.txt",AvgCall_path + "/part-r-00000");
                 }
-//            }
-//        }
+            }
+        }
 
         System.out.println("start");
         return 0;
