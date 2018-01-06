@@ -2,6 +2,9 @@ group 'Distribution'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'com.tongji.DistributedSystem.MyJob'
 
 sourceCompatibility = 1.8
 
@@ -18,4 +21,6 @@ dependencies {
     compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version: '2.9.0'
     // http://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-common
     compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-common', version: '2.9.0'
+    //http://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-jobclient
+    compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-jobclient', version: '2.9.0'
 }

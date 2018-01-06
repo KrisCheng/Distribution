@@ -74,7 +74,7 @@ public class DistributedSystem {
             e.printStackTrace();
         }*/
         try{
-            MapReduceOperator.AvgCall("/user/data/omega.txt","/user/data/UserCallNum");
+            MapReduceOperator.AvgCall("/user/data/","/user/data/UserCallNum");
         }catch (Exception e){
             e.printStackTrace();
         }

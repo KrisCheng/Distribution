@@ -15,7 +15,7 @@ public class UserCallNumReducer extends Reducer<Text, IntWritable, Text, IntWrit
     private IntWritable result = new IntWritable();
     @Override
     protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-            int sum = 0;
+            int sum = 0;System.out.println("start");
             for (IntWritable val : values) {
                 sum += val.get();
             }

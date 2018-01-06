@@ -8,8 +8,10 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 
 /**
@@ -72,6 +74,19 @@ public class FileOperator {
         }
     }
 
+    //下载本地文件
+    public static String downloadFile(String filename, String dst) throws IOException{
+        FileSystem fs = FileSystem.get(conf);
+        InputStream in = fs.open(new Path(dst));
+        //网站跟目录路径
+        String webBaseDir = "D:\\github\\";
+        //上传文件保存的目录路径
+        String downloadFileDir = webBaseDir + "var\\";
+        OutputStream out = new FileOutputStream(downloadFileDir + filename);
+        IOUtils.copyBytes(in, out, 4096, true);
+        fs.close();
+        return downloadFileDir + filename;
+    }
     //文件重命名
     public static void rename(String oldName,String newName) throws IOException{
         //Configuration conf = new Configuration();
@@ -92,7 +107,7 @@ public class FileOperator {
         //Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
         Path path = new Path(filePath);
-        boolean isok = fs.deleteOnExit(path);
+        boolean isok = fs.delete(path,true);
         if(isok){
             System.out.println("delete ok!");
         }else{

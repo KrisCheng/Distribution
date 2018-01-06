@@ -16,7 +16,7 @@ public class UserCallNumMapper extends Mapper<Object, Text, Text, IntWritable> {
     private Text word = new Text();
     @Override
     protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-        String str = value.toString();
+        String str = value.toString();System.out.println("start");
         str += "\r\n";
         String[] dictionary = str.split("\\s{2,}|\t");
         word.set(dictionary[1]);

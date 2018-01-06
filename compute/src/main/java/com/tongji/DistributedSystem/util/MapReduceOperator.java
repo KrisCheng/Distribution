@@ -36,9 +36,17 @@ public class MapReduceOperator {
 //        conf.set("dfs.namenode.rpc-address.ha-master.nn3", "hd-data3:9000");
 //        conf.set("dfs.namenode.rpc-address.ha-master.nn4", "hd-data4:9000");
 //        conf.set("dfs.client.failover.proxy.provider.ha-master" ,"org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider");
-        conf.addResource(Resources.getResource("core-site.xml"));
-        conf.addResource(Resources.getResource("hdfs-site.xml"));
-        conf.addResource(Resources.getResource("mapred-site.xml"));
+        //conf.addResource(Resources.getResource("core-site.xml"));
+        //conf.addResource(Resources.getResource("hdfs-site.xml"));
+        //conf.addResource(Resources.getResource("mapred-site.xml"));
+        // this should be like defined in your yarn-site.xml
+        //conf.set("mapred.jobtracker.address", "hd-master:54311");
+        conf.set("yarn.resourcemanager.address", "hd-master:54311");
+        conf.set("mapreduce.app-submission.cross-platform", "true");
+        // framework is now "yarn", should be defined like this in mapred-site.xm
+        conf.set("mapreduce.framework.name", "yarn");
+        // like defined in hdfs-site.xml
+        conf.set("fs.default.name", "hdfs://hd-master:54310");
     }
     public static void AvgCall(String src,String dst) throws Exception{
         Job job = Job.getInstance(conf, "AvgCall");
