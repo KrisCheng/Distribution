@@ -155,7 +155,8 @@ public class FileOperator {
             for (int i = 0; i < filelist.length; i++) {
                 System.out.println("_________" + direPath + "目录下所有文件______________");
                 FileStatus fileStatus = filelist[i];
-                directoryList.add(new GetDirectoryFromHdfsResp.Directory(fileStatus.getPath().getName(), fileStatus.getLen(), fileStatus.getPath().toString()));
+                directoryList.add(new GetDirectoryFromHdfsResp.Directory(fileStatus.getPath().getName(), fileStatus.getLen(), fileStatus.getPath().toString(), fileStatus.getAccessTime(),
+                        fileStatus.getOwner(), fileStatus.getGroup(), fileStatus.getBlockSize(), fileStatus.getModificationTime(), fileStatus.getReplication(), fileStatus.getPermission().toString(), fileStatus.isFile()));
             }
             fs.close();
             return directoryList;
