@@ -1,0 +1,51 @@
+group 'CalculateSystem'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+mainClassName = 'com.tongji.CalculateSystem.job.AvgCallJob'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+shadowJar {
+    baseName = 'calculate'
+    classifier = null
+    version = null
+    dependencies {
+        include(dependency('org.apache.hadoop:hadoop-hdfs:2.9.0'))
+        include(dependency('org.apache.hadoop:hadoop-common:2.9.0'))
+        include(dependency('org.apache.hadoop:hadoop-mapreduce-client-core:2.9.0'))
+        include(dependency('org.apache.hadoop:hadoop-mapreduce-client-common:2.9.0'))
+        include(dependency('org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.9.0'))
+    }
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-hdfs
+    compile group: 'org.apache.hadoop', name: 'hadoop-hdfs', version: '2.9.0'
+    // https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common
+    compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.9.0'
+    // https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-core
+    compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version: '2.9.0'
+    // http://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-common
+    compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-common', version: '2.9.0'
+    //http://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-jobclient
+    compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-jobclient', version: '2.9.0'
+    // https://mvnrepository.com/artifact/com.jcraft/jsch
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.42'
+}

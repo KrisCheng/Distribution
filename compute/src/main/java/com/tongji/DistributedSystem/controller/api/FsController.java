@@ -6,7 +6,7 @@ import com.tongji.DistributedSystem.request.fs.PostMkdirReq;
 import com.tongji.DistributedSystem.request.fs.PutRenameReq;
 import com.tongji.DistributedSystem.response.BaseResp;
 import com.tongji.DistributedSystem.service.FsService;
-import com.tongji.DistributedSystem.util.FileOperator;
+import com.tongji.DistributedSystem.tool.FileOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;

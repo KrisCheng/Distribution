@@ -3,7 +3,7 @@ package com.tongji.DistributedSystem.service;
 import com.tongji.DistributedSystem.response.BaseResp;
 import com.tongji.DistributedSystem.response.fs.GetDirectoryFromHdfsResp;
 import com.tongji.DistributedSystem.response.fs.GetReadFileResp;
-import com.tongji.DistributedSystem.util.FileOperator;
+import com.tongji.DistributedSystem.tool.FileOperator;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

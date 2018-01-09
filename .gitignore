@@ -17,3 +17,6 @@ compute/build/
 .idea/uiDesigner.xml
 .idea/uiDesigner.xml
 .idea/uiDesigner.xml
+CalculateSystem/.gradle/
+CalculateSystem/build/
+CalculateSystem/out/

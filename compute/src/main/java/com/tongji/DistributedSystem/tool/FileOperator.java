@@ -1,4 +1,4 @@
-package com.tongji.DistributedSystem.util;
+package com.tongji.DistributedSystem.tool;
 
 import com.google.common.io.Resources;
 import com.tongji.DistributedSystem.response.BaseResp;
